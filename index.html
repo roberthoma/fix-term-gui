@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>FIX Terminal</title>
+</head>
+
+<!-- <script type="text/javascript" language="javascript">
+function startServer() {
+  document.getElementById("demo").innerHTML = "ZMiana z funnn.";
+
+  var request = new XMLHttpRequest();
+  request.open("GET", "http://localhost:8081/start");
+  request.send();
+
+  request.onload = (e) => {
+    alert(request.response);
+  }
+
+}
+
+
+function logoutServer() {
+  document.getElementById("demo").innerHTML = "ZMiana z funnn.";
+
+  var request = new XMLHttpRequest();
+  request.open("GET", "http://localhost:8081/logout");
+  request.send();
+}
+
+</script>
+ --><body>
+<button type="button"
+        onclick="document.getElementById('demo').innerHTML = Date()">
+       Date and Time.
+
+</button>
+<button type="button"
+        onclick="startServer()">
+    Start server
+
+</button>
+<button type="button"
+        onclick="logoutServer()">
+    Logout server
+
+</button>
+
+<button type="button"
+        onclick="logoutServer()">
+    AUTO TRADING OFF/ON
+</button>
+
+<p id="demo"></p>
+
+<span th:text="' heart : ' + ${heartBB}"></span>
+<br>
+<p><a href="/about" target="index" >About FIX Terminal</a></p>
+<br>
+<p> - SERVER OPTIONS - </p>
+<p><a href="/start" target="_blank">Start and login / logs</a></p>
+<p><a href="/logout" target="_blank">Logout / logs</a></p>
+<p><a href="/settings" target="_blank">Settings</a></p>
+<br>
+<p> - MONITORS OPTIONS - </p>
+<p><a href="/monitors" target="_blank">Monitors list</a></p>
+<p><a href="/monitor?instrument=1" target="_blank">EURUSD monitor</a></p>
+<br>
+<p> - DICTIONARIES - </p>
+<p><a href="/dic-brokers" target="_blank">Brokers</a></p>
+<p><a href="/dic-instruments" target="_blank">Instruments</a></p>
+<br>
+    <script>
+        console.log("Nasz pierwszy skrypt!");
+    </script>
+
+</body>
+</html>

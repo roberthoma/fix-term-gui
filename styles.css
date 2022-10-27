@@ -1,0 +1,11 @@
+#plain {
+    border: 2px solid red;
+    max-width: 200px;
+    height: 300px;
+    margin: 0 auto;
+    display: block;
+}
+ 
+a {
+    display: block;
+}

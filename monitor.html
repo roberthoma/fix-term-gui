@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>FIX Terminal</title>
+</head>
+<body>
+<table style="border-collapse: collapse; width: 100%; height: 160px;" border="1">
+  <tbody>
+  <tr style="height: 18px;">
+    <td style="width: 30.2557%; height: 18px;">
+      <h1><strong>EURUSD</strong></h1>
+    </td>
+    <td style="width: 69.7443%; height: 18px;">
+      <p style="text-align: center;"><strong>POSITIONS AND ORDERS</strong></p>
+      <table style="border-collapse: collapse; width: 100%;" border="1">
+        <tbody>
+        <tr>
+          <td style="width: 25%;">Position</td>
+          <td style="width: 25%;">LONG</td>
+          <td style="width: 25%;">0,02lot</td>
+          <td style="width: 25%;">-0,0</td>
+        </tr>
+        <tr>
+          <td style="width: 25%;">Stop Loss distance</td>
+          <td style="width: 25%;">0,0002 pip</td>
+          <td style="width: 25%;">&nbsp;</td>
+          <td style="width: 25%;">&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr style="height: 142px;">
+    <td style="width: 30.2557%; height: 142px;">
+      <p style="text-align: center;"><strong>PARAMETRES</strong></p>
+      <table style="border-collapse: collapse; width: 100%; height: 144px;" border="1">
+        <tbody>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">Quantity</td>
+          <td style="width: 25%; height: 18px;" th:text="${quantity}"></td>
+          <td style="width: 25%; height: 18px;">lot</td>
+        </tr>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">Take profit</td>
+          <td style="width: 25%; height: 18px;">0,0004</td>
+          <td style="width: 25%; height: 18px;">pip</td>
+        </tr>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">Stop Loss</td>
+          <td style="width: 25%; height: 18px;">0,0006</td>
+          <td style="width: 25%; height: 18px;">pip</td>
+        </tr>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;"><strong>Breakeven AUTO</strong></td>
+          <td style="width: 25%; height: 18px;">ON</td>
+          <td style="width: 25%; height: 18px;">&nbsp;</td>
+        </tr>
+        <tr style="height: 36px;">
+          <td style="width: 50%; height: 36px;">BR activate distance</td>
+          <td style="width: 25%; height: 36px;">0,0005</td>
+          <td style="width: 25%; height: 36px;">pip</td>
+        </tr>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">BR profit distance</td>
+          <td style="width: 25%; height: 18px;">&nbsp;</td>
+          <td style="width: 25%; height: 18px;">&nbsp;</td>
+        </tr>
+        <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">Trailing Stop</td>
+          <td style="width: 25%; height: 18px;">&nbsp;</td>
+          <td style="width: 25%; height: 18px;">&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+      <p><a href="/trade-parameters" target="index">Trade parameters</a></p>
+<!--      <p><a href="/command?cmd=buy&instrument=1" target="index">Buy by market</a></p>-->
+      <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
+      <button type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
+      <br>
+      <button type="button" onclick="tradeByMarket('close')"> Close </button>
+      <button type="button" onclick="tradeByMarket('breakeven')"> breakeven </button>
+    </td>
+    <td style="width: 69.7443%; height: 142px;">
+      <p style="text-align: center;"><strong>MARKET INFO</strong></p>
+      <p>TREND&nbsp;&nbsp; UP</p>
+      <p>PIWOTS</p>
+      <p>count piwots</p>
+      <p>OFERT count</p>
+      <p>SUM OFERT BUY</p>
+      <p>SUM OFERT SELL&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
