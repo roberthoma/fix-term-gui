@@ -7,14 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <title>FIX Terminal</title>
+    <title>FIX Monitor</title>
 </head>
-<body>
+<body onload="loadMonitor(1)">  
 <table style="border-collapse: collapse; width: 100%; height: 160px;" border="1">
   <tbody>
   <tr style="height: 18px;">
     <td style="width: 30.2557%; height: 18px;">
-      <h1><strong>EURUSD</strong></h1>
+      <h1 id="instrumentSymbol"></h1>
+      <p id="instrumentDesc"></p>
     </td>
     <td style="width: 69.7443%; height: 18px;">
       <p style="text-align: center;"><strong>POSITIONS AND ORDERS</strong></p>
@@ -38,14 +39,29 @@
   </tr>
   <tr style="height: 142px;">
     <td style="width: 30.2557%; height: 142px;">
+      <p><a href="/trade-parameters" target="index">Trade parameters</a></p>
+<!--      <p><a href="/command?cmd=buy&instrument=1" target="index">Buy by market</a></p>-->
+      <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
+      <button type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
+      <br>
+      <button type="button" onclick="tradeByMarket('close')"> Close </button>
+      <button type="button" onclick="tradeByMarket('breakeven')"> breakeven </button>
+
       <p style="text-align: center;"><strong>PARAMETRES</strong></p>
       <table style="border-collapse: collapse; width: 100%; height: 144px;" border="1">
         <tbody>
         <tr style="height: 18px;">
+          <td style="width: 50%; height: 18px;">Parameter description</td>
+          <td style="width: 25%; height: 18px;">value</td>
+          <td style="width: 25%; height: 18px;">unit</td>
+        </tr>
+
+        <tr style="height: 18px;">
           <td style="width: 50%; height: 18px;">Quantity</td>
-          <td style="width: 25%; height: 18px;" th:text="${quantity}"></td>
+          <td style="width: 25%; height: 18px;" id="parvalue"></td>
           <td style="width: 25%; height: 18px;">lot</td>
         </tr>
+
         <tr style="height: 18px;">
           <td style="width: 50%; height: 18px;">Take profit</td>
           <td style="width: 25%; height: 18px;">0,0004</td>
@@ -78,13 +94,6 @@
         </tr>
         </tbody>
       </table>
-      <p><a href="/trade-parameters" target="index">Trade parameters</a></p>
-<!--      <p><a href="/command?cmd=buy&instrument=1" target="index">Buy by market</a></p>-->
-      <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
-      <button type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
-      <br>
-      <button type="button" onclick="tradeByMarket('close')"> Close </button>
-      <button type="button" onclick="tradeByMarket('breakeven')"> breakeven </button>
     </td>
     <td style="width: 69.7443%; height: 142px;">
       <p style="text-align: center;"><strong>MARKET INFO</strong></p>

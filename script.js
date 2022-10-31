@@ -8,7 +8,6 @@ function toggle(id) {
 }
 
 function startServer() {
-  document.getElementById("demo").innerHTML = "ZMiana z funnn.";
 
   var request = new XMLHttpRequest();
   request.open("GET", "http://localhost:8081/start");
@@ -22,11 +21,11 @@ function startServer() {
 
 
 function logoutServer() {
-  document.getElementById("demo").innerHTML = "ZMiana z funnn.";
 
   var request = new XMLHttpRequest();
   request.open("GET", "http://localhost:8081/logout");
   request.send();
+  document.getElementById("demo").innerHTML = "User is logout";
 }
 
 
@@ -40,4 +39,44 @@ function tradeByMarket(cmd_val) {
 <!--  request.onload = (e) => {-->
 <!--    alert(request.response);-->
 <!--  }-->
+}
+
+
+
+
+function setInstrument(instrument){
+
+  document.getElementById("instrumentSymbol").innerHTML = instrument.symbol;
+  document.getElementById("instrumentDesc").innerHTML = instrument.description;
+
+
+}
+
+
+function setTradeParameters(trade_params){
+
+  document.getElementById("parvalue").innerHTML = trade_params.QUANTITY;
+
+  for (const [key, value] of Object.entries(trade_params)) {
+     console.log(`${key}: ${value}`);
+  }
+
+}
+
+function loadMonitor(instrumentId) {
+
+  fetch('http://localhost:8081/dic-instrument?fix-symbol='+instrumentId)
+      .then(result => result.json())
+      .then((output) => {setInstrument(output);})
+      .catch(err => console.error(err));
+
+
+
+  fetch('http://localhost:8081/trade-parameters?fix-symbol='+instrumentId)
+      .then(result => result.json())
+      .then((output) => {setTradeParameters(output);})
+      .catch(err => console.error(err));
+
+
+
 }
