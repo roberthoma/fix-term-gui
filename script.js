@@ -32,7 +32,7 @@ function logoutServer() {
 function tradeByMarket(cmd_val) {
   console.log(cmd_val);
   var request = new XMLHttpRequest();
-  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&instrument=1"
+  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix-symbol=1"
   request.open("GET", cmd_url);
   request.send();
 
@@ -53,15 +53,41 @@ function setInstrument(instrument){
 }
 
 
-function setTradeParameters(trade_params){
+// function setTradeParameters(trade_params){
 
-  document.getElementById("parvalue").innerHTML = trade_params.QUANTITY;
+//   document.getElementById("parvalue").innerHTML = trade_params.QUANTITY;
 
-  for (const [key, value] of Object.entries(trade_params)) {
-     console.log(`${key}: ${value}`);
+//   for (const [key, value] of Object.entries(trade_params)) {
+//      console.log(`${key}: ${value}`);
+//   }
+
+// }
+
+function generateTradeParametersTable(params){
+
+
+  var tablearea = document.getElementById('tablearea'),
+      table = document.createElement('table');
+
+  for (var i = 0; i < params.length; i++) {
+      var tr = document.createElement('tr');
+
+      tr.appendChild( document.createElement('td') );
+      tr.appendChild( document.createElement('td') );
+      tr.appendChild( document.createElement('td') );
+
+      tr.cells[0].appendChild( document.createTextNode(params[i].label) )
+      tr.cells[1].appendChild( document.createTextNode(params[i].value) );
+      tr.cells[2].appendChild( document.createTextNode(params[i].unit) );
+
+
+      table.appendChild(tr);
   }
 
+  tablearea.appendChild(table);
+
 }
+
 
 function loadMonitor(instrumentId) {
 
@@ -74,8 +100,9 @@ function loadMonitor(instrumentId) {
 
   fetch('http://localhost:8081/trade-parameters?fix-symbol='+instrumentId)
       .then(result => result.json())
-      .then((output) => {setTradeParameters(output);})
+      .then((output) => {generateTradeParametersTable(output);})
       .catch(err => console.error(err));
+
 
 
 
