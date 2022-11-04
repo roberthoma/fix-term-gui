@@ -29,17 +29,60 @@ function logoutServer() {
 }
 
 
-function tradeByMarket(cmd_val) {
-  console.log(cmd_val);
-  var request = new XMLHttpRequest();
-  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix-symbol=1"
-  request.open("GET", cmd_url);
-  request.send();
+function globalAutoTradingSwitch(){
 
-<!--  request.onload = (e) => {-->
-<!--    alert(request.response);-->
-<!--  }-->
+  
 }
+
+async function tradeByMarket(cmd_val) {
+
+  document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
+  document.getElementById("actionErr").innerHTML = "";
+
+
+ // console.log(cmd_val);
+ // var request = new XMLHttpRequest();
+  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix-symbol=1"
+ // request.open("GET", cmd_url);
+ // request.send();
+
+
+
+
+fetch(cmd_url)
+          .then(result => result.text())
+          .then((output) => {  document.getElementById("actionErr").innerHTML = output;})
+          .catch(err => document.getElementById("actionErr").innerHTML=err);
+          // .catch(err => console.error(err));
+
+// <!--  request.onload = (e) => {-->
+// <!--    alert(request.response);-->
+// <!--  }-->
+
+
+}
+
+
+async function fixTermLogs(logs) {
+
+   // document.getElementById("fixlog").innerHTML = logs.symbol;
+   document.getElementById("fixlog").innerHTML = logs;
+
+
+    // var el = document.getElementById('fixlog');
+    // el.appendChild(document.createTextNode(logs.symbol));
+    // el.appendChild(document.createElement('br'));  
+
+    fetch('http://localhost:8081/fix-term-logs')
+          .then(result => result.text())
+          .then((output) => {fixTermLogs(output);})
+          .catch(err => {
+                          console.error(err);
+                        });
+
+
+}
+
 
 
 
@@ -66,7 +109,7 @@ function setInstrument(instrument){
 function generateTradeParametersTable(params){
 
 
-  var tablearea = document.getElementById('tablearea'),
+  var tablearea = document.getElementById('trade_params_tab'),
       table = document.createElement('table');
 
   for (var i = 0; i < params.length; i++) {
@@ -89,7 +132,13 @@ function generateTradeParametersTable(params){
 }
 
 
+
+
+
+
 function loadMonitor(instrumentId) {
+
+  fixTermLogs("")
 
   fetch('http://localhost:8081/dic-instrument?fix-symbol='+instrumentId)
       .then(result => result.json())
@@ -104,6 +153,7 @@ function loadMonitor(instrumentId) {
       .catch(err => console.error(err));
 
 
+  
 
 
 }

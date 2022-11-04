@@ -39,33 +39,38 @@
   </tr>
   <tr style="height: 142px;">
     <td style="width: 30.2557%; height: 142px;">
-      <p><a href="/trade-parameters" target="index">Trade parameters</a></p>
-<!--      <p><a href="/command?cmd=buy&instrument=1" target="index">Buy by market</a></p>-->
       <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
       <button type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
       <br>
       <button type="button" onclick="tradeByMarket('close')"> Close </button>
       <button type="button" onclick="tradeByMarket('breakeven')"> breakeven </button>
+      <p id="actionInfo"></p>
+      <p id="actionErr"></p>
+      <button type="button" onclick="tradeByMarket('up')"> up </button>
+      <button type="button" onclick="tradeByMarket('down')"> down </button>
 
       <p style="text-align: center;"><strong>TRADE PARAMETRES</strong></p>
+      <table id="trade_params_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
-      <!-- <table id="tablearea"> </table> -->
-      <table id="tablearea" style="border-collapse: collapse; width: 100%;" border="1"> </table>
-
+      <p style="text-align: center;"><strong>MARKET MODEL PARAMETRES</strong></p>
+      <table id="mm_parameters_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
     </td>
     <td style="width: 69.7443%; height: 142px;">
       <p style="text-align: center;"><strong>MARKET INFO</strong></p>
-      <p>TREND&nbsp;&nbsp; UP</p>
-      <p>PIWOTS</p>
-      <p>count piwots</p>
       <p>OFERT count</p>
       <p>SUM OFERT BUY</p>
       <p>SUM OFERT SELL&nbsp;</p>
+
+      <p style="text-align: center;"><strong>MARKET MODEL</strong></p>
+      <p>TREND&nbsp;&nbsp; UP</p>
+      <p>PIWOTS</p>
+      <p style="text-align: center;"><strong>TERMINAL LOGS</strong></p>
+      <p id="fixlog"></p>
       <p>&nbsp;</p>
       <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
+
+
     </td>
   </tr>
   </tbody>
