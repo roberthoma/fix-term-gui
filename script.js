@@ -62,11 +62,28 @@ fetch(cmd_url)
 
 }
 
+async function writefixTermLogs(logs) {
+   // document.getElementById("fixlog").innerHTML = logs+"<br>";
+
+  var tablearea = document.getElementById('fixlog'),
+      table = document.createElement('table');
+
+  var tr = document.createElement('tr');
+
+      tr.appendChild( document.createElement('td') );
+      tr.cells[0].appendChild( document.createTextNode(logs) )
+      table.appendChild(tr);
+
+  tablearea.appendChild(table);
+
+
+}
+
+
 
 async function fixTermLogs(logs) {
-
-   // document.getElementById("fixlog").innerHTML = logs.symbol;
-   document.getElementById("fixlog").innerHTML = logs;
+    
+    writefixTermLogs(logs);
 
 
     // var el = document.getElementById('fixlog');
