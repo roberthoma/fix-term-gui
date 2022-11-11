@@ -1,0 +1,2 @@
+zmiana prarametrów na wskaźnikach . każdy wskażnik powinien mieć swoje ID gdyż 
+ten sam wskażnik może być użyty kilku krotnie z różnymi parametrami 

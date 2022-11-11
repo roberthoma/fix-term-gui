@@ -34,33 +34,40 @@ function globalAutoTradingSwitch(){
   
 }
 
+
+
+
 async function tradeByMarket(cmd_val) {
 
   document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
   document.getElementById("actionErr").innerHTML = "";
 
+  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix_symbol=1"
 
- // console.log(cmd_val);
- // var request = new XMLHttpRequest();
-  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix-symbol=1"
- // request.open("GET", cmd_url);
- // request.send();
-
-
-
-
-fetch(cmd_url)
+  fetch(cmd_url)
           .then(result => result.text())
           .then((output) => {  document.getElementById("actionErr").innerHTML = output;})
           .catch(err => document.getElementById("actionErr").innerHTML=err);
-          // .catch(err => console.error(err));
-
-// <!--  request.onload = (e) => {-->
-// <!--    alert(request.response);-->
-// <!--  }-->
 
 
 }
+
+
+async function chageParam(fix_symbol,cmd_val,param_symbol){
+
+  document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
+  document.getElementById("actionErr").innerHTML = "";
+
+  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix_symbol="+fix_symbol+"&param_symbol="+param_symbol;
+
+  fetch(cmd_url)
+          .then(result => result.text())
+          .then((output) => {  document.getElementById("actionErr").innerHTML = output;})
+          .catch(err => document.getElementById("actionErr").innerHTML=err);
+
+}
+
+
 
 async function writefixTermLogs(logs) {
    // document.getElementById("fixlog").innerHTML = logs+"<br>";
@@ -149,22 +156,23 @@ function generateTradeParametersTable(params){
 }
 
 
+function loadIndex() {
 
+  fixTermLogs("")
 
+}
 
 
 function loadMonitor(instrumentId) {
 
-  fixTermLogs("")
-
-  fetch('http://localhost:8081/dic-instrument?fix-symbol='+instrumentId)
+  fetch('http://localhost:8081/dic-instrument?fix_symbol='+instrumentId)
       .then(result => result.json())
       .then((output) => {setInstrument(output);})
       .catch(err => console.error(err));
 
 
 
-  fetch('http://localhost:8081/trade-parameters?fix-symbol='+instrumentId)
+  fetch('http://localhost:8081/trade-parameters?fix_symbol='+instrumentId)
       .then(result => result.json())
       .then((output) => {generateTradeParametersTable(output);})
       .catch(err => console.error(err));
