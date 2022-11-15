@@ -1,3 +1,22 @@
+var fix_term_url = "http://localhost:8081"
+
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+// var fix_symbol_id = GetURLParameter(fix_term_url+"/monitor?fix_symbol_id=1");
+var fix_symbol_id = "1" 
+
 function toggle(id) {
     let button = document.getElementById(id);
     if (button.style.display == 'block') {
@@ -10,7 +29,7 @@ function toggle(id) {
 function startServer() {
 
   var request = new XMLHttpRequest();
-  request.open("GET", "http://localhost:8081/start");
+  request.open("GET", fix_term_url+"/start");
   request.send();
 
   request.onload = (e) => {
@@ -23,7 +42,7 @@ function startServer() {
 function logoutServer() {
 
   var request = new XMLHttpRequest();
-  request.open("GET", "http://localhost:8081/logout");
+  request.open("GET", fix_term_url+"/logout");
   request.send();
   document.getElementById("demo").innerHTML = "User is logout";
 }
@@ -42,7 +61,7 @@ async function tradeByMarket(cmd_val) {
   document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
   document.getElementById("actionErr").innerHTML = "";
 
-  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix_symbol=1"
+  var cmd_url=fix_term_url+"/command?cmd="+cmd_val+"&fix_symbol_id="+fix_symbol_id
 
   fetch(cmd_url)
           .then(result => result.text())
@@ -53,12 +72,12 @@ async function tradeByMarket(cmd_val) {
 }
 
 
-async function chageParam(fix_symbol,cmd_val,param_symbol){
+async function chageParam(cmd_val,param_symbol){
 
   document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
   document.getElementById("actionErr").innerHTML = "";
 
-  var cmd_url="http://localhost:8081/command?cmd="+cmd_val+"&fix_symbol="+fix_symbol+"&param_symbol="+param_symbol;
+  var cmd_url=fix_term_url+"/command?cmd="+cmd_val+"&fix_symbol_id="+fix_symbol_id+"&param_symbol="+param_symbol;
 
   fetch(cmd_url)
           .then(result => result.text())
@@ -97,7 +116,7 @@ async function fixTermLogs(logs) {
     // el.appendChild(document.createTextNode(logs.symbol));
     // el.appendChild(document.createElement('br'));  
 
-    fetch('http://localhost:8081/fix-term-logs')
+    fetch(fix_term_url+'/fix-term-logs')
           .then(result => result.text())
           .then((output) => {fixTermLogs(output);})
           .catch(err => {
@@ -130,17 +149,19 @@ function setInstrument(instrument){
 
 // }
 
-function generateTradeParametersTable(params){
+function generateParametersTable(params,tab_param_id){
 
 
-  var tablearea = document.getElementById('trade_params_tab'),
+  var tablearea = document.getElementById(tab_param_id ),
       table = document.createElement('table');
 
   for (var i = 0; i < params.length; i++) {
       var tr = document.createElement('tr');
 
       tr.appendChild( document.createElement('td') );
-      tr.appendChild( document.createElement('td') );
+      var tr_id = document.createElement('td'); 
+      tr_id.setAttribute("id",params[i].symbol);
+      tr.appendChild( tr_id);
       tr.appendChild( document.createElement('td') );
 
       tr.cells[0].appendChild( document.createTextNode(params[i].label) )
@@ -156,6 +177,37 @@ function generateTradeParametersTable(params){
 }
 
 
+
+function generateMarketDataTable(params){
+
+
+  var tablearea = document.getElementById('md_market_data_tab'),
+      table = document.createElement('table');
+
+  for (var i = 0; i < params.length; i++) {
+      var tr = document.createElement('tr');
+
+      tr.appendChild( document.createElement('td') );
+      
+      var tr_id = document.createElement('td'); 
+      tr_id.setAttribute("id",params[i].symbol);
+      tr.appendChild( tr_id);
+      tr.appendChild( document.createElement('td') );
+
+      tr.cells[0].appendChild( document.createTextNode(params[i].label) )
+      tr.cells[1].appendChild( document.createTextNode(params[i].value) );
+      tr.cells[2].appendChild( document.createTextNode(params[i].unit) );
+
+
+      table.appendChild(tr);
+  }
+
+  tablearea.appendChild(table);
+
+}
+
+
+
 function loadIndex() {
 
   fixTermLogs("")
@@ -163,22 +215,60 @@ function loadIndex() {
 }
 
 
-function loadMonitor(instrumentId) {
 
-  fetch('http://localhost:8081/dic-instrument?fix_symbol='+instrumentId)
+function setValueById(params){
+  for (var i = 0; i < params.length; i++) {
+     document.getElementById(params[i].symbol).innerHTML = params[i].value;
+  }  
+}
+
+
+
+async function refreshMarketDataTable(params){
+  setValueById(params);
+
+  fetch(fix_term_url+'/market-data-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {refreshMarketDataTable(output);})
+      .catch(err => console.error(err));
+
+
+}
+
+function refMarketDataTable(){
+  refreshMarketDataTable("");
+}
+
+
+function loadMonitor() {
+
+  fetch(fix_term_url+'/dic-instrument?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
       .then((output) => {setInstrument(output);})
       .catch(err => console.error(err));
 
 
 
-  fetch('http://localhost:8081/trade-parameters?fix_symbol='+instrumentId)
+  fetch(fix_term_url+'/trade-parameters?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
-      .then((output) => {generateTradeParametersTable(output);})
+      .then((output) => {generateParametersTable(output,'trade_params_tab');})
       .catch(err => console.error(err));
 
 
-  
 
+  fetch(fix_term_url+'/indicators-parameters?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {generateParametersTable(output,'indcators_parameters_tab');})
+      .catch(err => console.error(err));
+
+
+
+  fetch(fix_term_url+'/market-data-dic')
+      .then(result => result.json())
+      .then((output) => {generateMarketDataTable(output);})
+      .catch(err => console.error(err));
+  
+  
+  refMarketDataTable();
 
 }
