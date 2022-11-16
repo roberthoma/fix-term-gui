@@ -178,10 +178,10 @@ function generateParametersTable(params,tab_param_id){
 
 
 
-function generateMarketDataTable(params){
+function generateMonitorDataTable(params,tab_name){
 
 
-  var tablearea = document.getElementById('md_market_data_tab'),
+  var tablearea = document.getElementById(tab_name),
       table = document.createElement('table');
 
   for (var i = 0; i < params.length; i++) {
@@ -262,10 +262,15 @@ function loadMonitor() {
       .catch(err => console.error(err));
 
 
-
+  fetch(fix_term_url+'/position-data-dic')
+      .then(result => result.json())
+      .then((output) => {generateMonitorDataTable(output,'position_data_tab');})
+      .catch(err => console.error(err));
+    
+    
   fetch(fix_term_url+'/market-data-dic')
       .then(result => result.json())
-      .then((output) => {generateMarketDataTable(output);})
+      .then((output) => {generateMonitorDataTable(output,'market_data_tab');})
       .catch(err => console.error(err));
   
   
