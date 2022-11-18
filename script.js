@@ -216,16 +216,18 @@ function loadIndex() {
 
 
 
-function setValueById(params){
+function setValueFromList(params){
   for (var i = 0; i < params.length; i++) {
-     document.getElementById(params[i].symbol).innerHTML = params[i].value;
+     if(document.getElementById(params[i].symbol) !== null){
+      document.getElementById(params[i].symbol).innerHTML = params[i].value;
+     }   
   }  
 }
 
 
 
 async function refreshMarketDataTable(params){
-  setValueById(params);
+  setValueFromList(params);
 
   fetch(fix_term_url+'/market-data-values?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
@@ -249,9 +251,14 @@ function loadMonitor() {
 
 
 
-  fetch(fix_term_url+'/trade-parameters?fix_symbol_id='+fix_symbol_id)
+  fetch(fix_term_url+'/trade-parameters-dic?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
       .then((output) => {generateParametersTable(output,'trade_params_tab');})
+      .catch(err => console.error(err));
+  
+  fetch(fix_term_url+'/trade-parameters-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {setValueFromList(output);})
       .catch(err => console.error(err));
 
 
