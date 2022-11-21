@@ -84,6 +84,7 @@ async function chageParam(cmd_val,param_symbol){
           .then((output) => {  document.getElementById("actionErr").innerHTML = output;})
           .catch(err => document.getElementById("actionErr").innerHTML=err);
 
+  refreshTradeParameters();
 }
 
 
@@ -138,16 +139,6 @@ function setInstrument(instrument){
 
 }
 
-
-// function setTradeParameters(trade_params){
-
-//   document.getElementById("parvalue").innerHTML = trade_params.QUANTITY;
-
-//   for (const [key, value] of Object.entries(trade_params)) {
-//      console.log(`${key}: ${value}`);
-//   }
-
-// }
 
 function generateParametersTable(params,tab_param_id){
 
@@ -218,7 +209,9 @@ function loadIndex() {
 
 function setValueFromList(params){
   for (var i = 0; i < params.length; i++) {
-     if(document.getElementById(params[i].symbol) !== null){
+     var elementId = document.getElementById(params[i].symbol);
+     if(elementId !== null ) 
+     {
       document.getElementById(params[i].symbol).innerHTML = params[i].value;
      }   
   }  
@@ -242,6 +235,54 @@ function refMarketDataTable(){
 }
 
 
+async function refreshTradeParameters(){
+
+
+  fetch(fix_term_url+'/trade-parameters-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {setValueFromList(output);})
+      .catch(err => console.error(err));
+
+
+}
+
+
+async function setTradeParameters(){
+
+  fetch(fix_term_url+'/trade-parameters-dic?fix_symbol_id='+fix_symbol_id)
+        .then(result => result.json())
+        .then((output) => {generateParametersTable(output,'trade_params_tab');})
+        .catch(err => console.error(err));
+    
+  refreshTradeParameters();
+
+}
+
+
+async function refreshIndicatorsParameters(){
+
+
+  fetch(fix_term_url+'/indicators-parameters-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {setValueFromList(output);})
+      .catch(err => console.error(err));
+
+
+}
+
+async function setIndicatorsParameters(){
+
+  fetch(fix_term_url+'/indicators-parameters-dic?fix_symbol_id='+fix_symbol_id)
+        .then(result => result.json())
+        .then((output) => {generateParametersTable(output,'indcators_parameters_tab');})
+        .catch(err => console.error(err));
+    
+  refreshIndicatorsParameters();
+
+}
+
+
+
 function loadMonitor() {
 
   fetch(fix_term_url+'/dic-instrument?fix_symbol_id='+fix_symbol_id)
@@ -250,23 +291,9 @@ function loadMonitor() {
       .catch(err => console.error(err));
 
 
-
-  fetch(fix_term_url+'/trade-parameters-dic?fix_symbol_id='+fix_symbol_id)
-      .then(result => result.json())
-      .then((output) => {generateParametersTable(output,'trade_params_tab');})
-      .catch(err => console.error(err));
+  setTradeParameters();
   
-  fetch(fix_term_url+'/trade-parameters-values?fix_symbol_id='+fix_symbol_id)
-      .then(result => result.json())
-      .then((output) => {setValueFromList(output);})
-      .catch(err => console.error(err));
-
-
-
-  fetch(fix_term_url+'/indicators-parameters?fix_symbol_id='+fix_symbol_id)
-      .then(result => result.json())
-      .then((output) => {generateParametersTable(output,'indcators_parameters_tab');})
-      .catch(err => console.error(err));
+  setIndicatorsParameters();
 
 
   fetch(fix_term_url+'/position-data-dic')
