@@ -199,6 +199,44 @@ function generateMonitorDataTable(params,tab_name){
 
 
 
+
+function generateVerticalValuesTable(params,tab_name){
+
+
+  var tablearea = document.getElementById(tab_name),
+      table = document.createElement('table');
+
+
+  var tr = document.createElement('tr');
+
+  for (var i = 0; i < params.length; i++) {
+
+      tr.appendChild( document.createElement('td') );      
+      tr.cells[i].appendChild( document.createTextNode(params[i].label+" "+params[i].unit) );
+
+  }
+  table.appendChild(tr);
+
+  var tr = document.createElement('tr');
+
+  for (var i = 0; i < params.length; i++) {
+
+      var td_id = document.createElement('td'); 
+      td_id.setAttribute("id",params[i].symbol);
+      tr.appendChild( td_id);
+
+  }
+  table.appendChild(tr);
+
+
+
+
+  tablearea.appendChild(table);
+
+}
+
+
+
 function loadIndex() {
 
   fixTermLogs("")
@@ -298,7 +336,7 @@ function loadMonitor() {
 
   fetch(fix_term_url+'/position-data-dic')
       .then(result => result.json())
-      .then((output) => {generateMonitorDataTable(output,'position_data_tab');})
+      .then((output) => {generateVerticalValuesTable(output,'position_data_tab');})
       .catch(err => console.error(err));
     
     
