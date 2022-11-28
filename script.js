@@ -339,7 +339,14 @@ function loadMonitor() {
       .then((output) => {generateVerticalValuesTable(output,'position_data_tab');})
       .catch(err => console.error(err));
     
+  
+  fetch(fix_term_url+'/order-data-dic')
+      .then(result => result.json())
+      .then((output) => {generateVerticalValuesTable(output,'orders_data_tab');})
+      .catch(err => console.error(err));
     
+    
+
   fetch(fix_term_url+'/market-data-dic')
       .then(result => result.json())
       .then((output) => {generateMonitorDataTable(output,'market_data_tab');})
@@ -347,5 +354,8 @@ function loadMonitor() {
   
   
   refMarketDataTable();
+
+
+  //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, wyczyść tablice pozycji itp
 
 }

@@ -23,19 +23,14 @@
         onclick="globalAutoTradingSwitch()">
     AUTO TRADING OFF/ON
 </button>  
+<br>
+<h1 id="instrumentSymbol"></h1>
+<p id="instrumentDesc"></p>
+<p id="instrumentPrecision">prrrec</p>
+
+
 <table style="border-collapse: collapse; width: 100%; height: 160px;" border="1">
   <tbody>
-  <tr style="height: 18px;">
-    <td style="width: 30.2557%; height: 18px;">
-      <h1 id="instrumentSymbol"></h1>
-      <p id="instrumentDesc"></p>
-      <p id="instrumentPrecision">prrrec</p>
-    </td>
-    <td style="width: 69.7443%; height: 18px;">
-      <p style="text-align: center;"><strong>Open positions and orders</strong></p>
-      <table id="position_data_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
-    </td>
-  </tr>
   <tr style="height: 142px;">
     <td style="width: 30.2557%; height: 142px;">
       <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
@@ -58,7 +53,15 @@
       <table id="mm_parameters_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
     </td>
+
     <td style="width: 69.7443%; height: 142px;">
+      <p style="text-align: center;"><strong>Open positions</strong></p>
+      <table id="position_data_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
+
+      <p style="text-align: center;"><strong>Orders</strong></p>
+      <table id="orders_data_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
+
+
       <p style="text-align: center;"><strong>MARKET DATA</strong></p>
       <table id="market_data_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
