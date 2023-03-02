@@ -1,4 +1,7 @@
-var fix_term_url = "http://localhost:8081"
+ var fix_term_url = "http://localhost:8081"
+
+//var fix_term_url = "http://89.31.127.69:8081"
+
 
 function GetURLParameter(sParam)
 {
@@ -14,8 +17,7 @@ function GetURLParameter(sParam)
     }
 }
 
-// var fix_symbol_id = GetURLParameter(fix_term_url+"/monitor?fix_symbol_id=1");
-var fix_symbol_id = "1" 
+var fix_symbol_id
 
 function toggle(id) {
     let button = document.getElementById(id);
@@ -53,6 +55,33 @@ function globalAutoTradingSwitch(){
   
 }
 
+function sendTradingSessionStatusRequest(){
+
+  // var request = new XMLHttpRequest();
+  // request.open("GET", fix_term_url+"/logout");
+  // request.send();
+  // document.getElementById("demo").innerHTML = "User is logout";
+
+}
+
+ function sendNetworkStatusRequest(){
+
+  
+ }
+
+
+
+function resetAllMaps() {
+
+  var request = new XMLHttpRequest();
+  request.open("GET", fix_term_url+"/reset_all_maps");
+  request.send();
+
+  request.onload = (e) => {
+    alert(request.response);
+  }
+
+}
 
 
 
@@ -201,6 +230,7 @@ function generateMonitorDataTable(params,tab_name){
 
 
 function generateVerticalValuesTable(params,tab_name){
+  
 
 
   var tablearea = document.getElementById(tab_name),
@@ -228,13 +258,30 @@ function generateVerticalValuesTable(params,tab_name){
   }
   table.appendChild(tr);
 
-
-
-
   tablearea.appendChild(table);
 
 }
 
+
+
+
+function fillVerticalValuesTable (params,tab_name){
+
+// const tableBody = document.querySelector('#my-table tbody');
+const tableBody = document.getElementById('orders_data_tab');
+
+    // loop through the data and create a table row for each item
+    params.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.id}</td>
+        <td>${item.quantity}</td>
+        <td>${item.side}</td>
+        <td>${item.type}</td>
+      `;
+      tableBody.appendChild(row);
+ })
+}
 
 
 function loadIndex() {
@@ -253,6 +300,8 @@ function setValueFromList(params){
       document.getElementById(params[i].symbol).innerHTML = params[i].value;
      }   
   }  
+
+
 }
 
 
@@ -270,6 +319,26 @@ async function refreshMarketDataTable(params){
 
 function refMarketDataTable(){
   refreshMarketDataTable("");
+}
+
+
+
+
+async function refreshOrdersTable(params){
+  setValueFromList(params);
+
+  fetch(fix_term_url+'/orders-list-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {refreshOrdersTable(output);})
+      .catch(err => console.error(err));
+
+
+}
+
+
+
+function refOrdersTable(){
+  refreshOrdersTable("");
 }
 
 
@@ -323,6 +392,10 @@ async function setIndicatorsParameters(){
 
 function loadMonitor() {
 
+
+  fix_symbol_id=GetURLParameter("fix_symbol_id");
+
+  
   fetch(fix_term_url+'/dic-instrument?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
       .then((output) => {setInstrument(output);})
@@ -345,7 +418,13 @@ function loadMonitor() {
       .then((output) => {generateVerticalValuesTable(output,'orders_data_tab');})
       .catch(err => console.error(err));
     
+
+fetch(fix_term_url+'/orders-list?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {fillVerticalValuesTable(output,'orders_data_tab');})
+      .catch(err => console.error(err));
     
+      
 
   fetch(fix_term_url+'/market-data-dic')
       .then(result => result.json())

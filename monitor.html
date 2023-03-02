@@ -23,6 +23,27 @@
         onclick="globalAutoTradingSwitch()">
     AUTO TRADING OFF/ON
 </button>  
+
+<button type="button"
+        onclick="sendTradingSessionStatusRequest()">
+    Trading Session Status
+</button>  
+
+
+
+<button type="button"
+        onclick="sendNetworkStatusRequest()">
+    Network Status
+</button>  
+
+
+<button type="button"
+        onclick="resetAllMaps()">
+    Reset Action
+</button>  
+
+
+
 <br>
 <h1 id="instrumentSymbol"></h1>
 <p id="instrumentDesc"></p>
@@ -33,11 +54,19 @@
   <tbody>
   <tr style="height: 142px;">
     <td style="width: 30.2557%; height: 142px;">
-      <button type="button" onclick="tradeByMarket('buy')"> Buy by market </button>
-      <button type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
+      <button accesskey="l" type="button" onclick="tradeByMarket('buy_limit')"> buy by limit </button>
+      <button accesskey="d" type="button" onclick="tradeByMarket('sell_limit')"> Sell by limit </button>
       <br>
-      <button type="button" onclick="tradeByMarket('close')"> Close </button>
-      <button type="button" onclick="tradeByMarket('breakeven')"> breakeven </button>
+      <button accesskey="b" type="button" onclick="tradeByMarket('buy')"> Buy by market</button>
+      <button accesskey="s" type="button" onclick="tradeByMarket('sell')"> Sell by market </button>
+      <br>
+      <button accesskey="c" type="button" onclick="tradeByMarket('close')"> Close </button>
+      <button accesskey="r" type="button" onclick="tradeByMarket('breakeven')"> Breakeven </button>
+      <button type="button" onclick="tradeByMarket('cancel_posit')"> Cancel Posit </button>
+      <br>
+      <button accesskey="o" type="button" onclick="tradeByMarket('cancel_all_ord')"> Cancel all order </button>
+      <!-- <button type="button" onclick="tradeByMarket('cancel_all_pen')"> Cancel all pending orders </button> -->
+
       <p id="actionInfo"></p>
       <p id="actionErr"></p>
       <button type="button" onclick="chageParam('set-up','quantity')"> up </button>
@@ -60,6 +89,9 @@
 
       <p style="text-align: center;"><strong>Orders</strong></p>
       <table id="orders_data_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
+
+      <p style="text-align: center;"><strong>Actions</strong></p>
+      <table id="actions_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
 
       <p style="text-align: center;"><strong>MARKET DATA</strong></p>
