@@ -51,7 +51,7 @@ function logoutServer() {
 
 
 function globalAutoTradingSwitch(){
-
+   onOff("","")
   
 }
 
@@ -107,6 +107,23 @@ async function chageParam(cmd_val,param_symbol){
   document.getElementById("actionErr").innerHTML = "";
 
   var cmd_url=fix_term_url+"/command?cmd="+cmd_val+"&fix_symbol_id="+fix_symbol_id+"&param_symbol="+param_symbol;
+
+  fetch(cmd_url)
+          .then(result => result.text())
+          .then((output) => {  document.getElementById("actionErr").innerHTML = output;})
+          .catch(err => document.getElementById("actionErr").innerHTML=err);
+
+  refreshTradeParameters();
+}
+
+
+async function onOff(cmd_val,param_symbol){
+
+  document.getElementById("actionInfo").innerHTML = "Action :"+cmd_val;
+  document.getElementById("actionErr").innerHTML = "";
+
+//  var cmd_url=fix_term_url+"/command?cmd="+cmd_val+"&fix_symbol_id="+fix_symbol_id+"&param_symbol="+param_symbol;
+  var cmd_url=fix_term_url+"/command?cmd=set-on-off&fix_symbol_id="+fix_symbol_id+"&param_symbol=par_auto_trade";
 
   fetch(cmd_url)
           .then(result => result.text())
@@ -275,6 +292,7 @@ const tableBody = document.getElementById('orders_data_tab');
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${item.id}</td>
+        <td>${item.price}</td>        
         <td>${item.quantity}</td>
         <td>${item.side}</td>
         <td>${item.type}</td>

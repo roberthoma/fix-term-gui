@@ -19,8 +19,7 @@
     Logout server
 </button>
 
-<button type="button"
-        onclick="globalAutoTradingSwitch()">
+<button type="button" onclick="globalAutoTradingSwitch()">
     AUTO TRADING OFF/ON
 </button>  
 
@@ -69,16 +68,16 @@
 
       <p id="actionInfo"></p>
       <p id="actionErr"></p>
-      <button type="button" onclick="chageParam('set-up','quantity')"> up </button>
-      <button type="button" onclick="chageParam('set-down','quantity')"> down </button>
+      <button type="button" onclick="chageParam('set-up','par_quantity')"> up </button>
+      <button type="button" onclick="chageParam('set-down','par_quantity')"> down </button>
 
       <p style="text-align: center;"><strong>TRADE PARAMETRES</strong></p>
       <table id="trade_params_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
-      <p style="text-align: center;"><strong>MARKET INDICATORS PARAMETERS</strong></p>
+      <p style="text-align: center;"><strong>INDICATORS PARAMETERS</strong></p>
       <table id="indcators_parameters_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
-      <p style="text-align: center;"><strong>MARKET MODEL PARAMETRES</strong></p>
+      <p style="text-align: center;"><strong>MODEL PARAMETRES</strong></p>
       <table id="mm_parameters_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
     </td>
@@ -103,6 +102,9 @@
 
       <p>&nbsp;</p>
       <p>&nbsp;</p>
+
+      <p style="text-align: center;"><strong>DEPTH OF MARKET</strong></p>
+      <table id="dom_tab" style="border-collapse: collapse; width: 100%;" border="1"> </table>
 
 
     </td>
