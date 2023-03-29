@@ -215,6 +215,35 @@ function generateParametersTable(params,tab_param_id){
 
 
 
+function generateVerticalTable(params,tab_param_id){
+
+
+  var tablearea = document.getElementById(tab_param_id ),
+      table = document.createElement('table');
+
+  for (var i = 0; i < params.length; i++) {
+      var tr = document.createElement('tr');
+
+      tr.appendChild( document.createElement('td') );
+      var tr_id = document.createElement('td'); 
+      tr_id.setAttribute("id",params[i].symbol);
+      tr.appendChild( tr_id);
+      tr.appendChild( document.createElement('td') );
+
+      tr.cells[0].appendChild( document.createTextNode(params[i].label) )
+      tr.cells[1].appendChild( document.createTextNode(params[i].value) );
+      tr.cells[2].appendChild( document.createTextNode(params[i].unit) );
+
+
+      table.appendChild(tr);
+  }
+
+  tablearea.appendChild(table);
+
+}
+
+
+
 function generateMonitorDataTable(params,tab_name){
 
 
@@ -246,7 +275,7 @@ function generateMonitorDataTable(params,tab_name){
 
 
 
-function generateVerticalValuesTable(params,tab_name){
+function generateHorizontalValuesTable(params,tab_name){
   
 
 
@@ -282,7 +311,7 @@ function generateVerticalValuesTable(params,tab_name){
 
 
 
-function fillVerticalValuesTable (params,tab_name){
+function fillOrdersValuesTable (params,tab_name){
 
 // const tableBody = document.querySelector('#my-table tbody');
 const tableBody = document.getElementById('orders_data_tab');
@@ -340,24 +369,54 @@ function refMarketDataTable(){
 }
 
 
-
-
-async function refreshOrdersTable(params){
+async function refreshMarketModelTable(params){
   setValueFromList(params);
 
-  fetch(fix_term_url+'/orders-list-values?fix_symbol_id='+fix_symbol_id)
+  fetch(fix_term_url+'/market-model-values?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
-      .then((output) => {refreshOrdersTable(output);})
+      .then((output) => {refreshMarketModelTable(output);})
+      .catch(err => console.error(err));
+
+}
+
+function refMarketModelTable(){
+  refreshMarketModelTable("");
+}
+
+
+
+// async function refreshOrdersTable(params){
+//   setValueFromList(params);
+
+//   fetch(fix_term_url+'/orders-list-values?fix_symbol_id='+fix_symbol_id)
+//       .then(result => result.json())
+//       .then((output) => {refreshOrdersTable(output);})
+//       .catch(err => console.error(err));
+
+
+// }
+
+// function refOrdersTable(){
+//   refreshOrdersTable("");
+// }
+
+
+async function refreshPositionTable(params){
+  setValueFromList(params);
+
+  fetch(fix_term_url+'/position-data-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {refreshPositionTable(output);})
       .catch(err => console.error(err));
 
 
 }
 
 
-
-function refOrdersTable(){
-  refreshOrdersTable("");
+function refPositionTable(){
+  refreshPositionTable("");
 }
+
 
 
 async function refreshTradeParameters(){
@@ -427,19 +486,22 @@ function loadMonitor() {
 
   fetch(fix_term_url+'/position-data-dic')
       .then(result => result.json())
-      .then((output) => {generateVerticalValuesTable(output,'position_data_tab');})
-      .catch(err => console.error(err));
-    
-  
-  fetch(fix_term_url+'/order-data-dic')
-      .then(result => result.json())
-      .then((output) => {generateVerticalValuesTable(output,'orders_data_tab');})
+      .then((output) => {generateHorizontalValuesTable(output,'position_data_tab');})
       .catch(err => console.error(err));
     
 
-fetch(fix_term_url+'/orders-list?fix_symbol_id='+fix_symbol_id)
+
+
+  
+  fetch(fix_term_url+'/order-data-dic')
       .then(result => result.json())
-      .then((output) => {fillVerticalValuesTable(output,'orders_data_tab');})
+      .then((output) => {generateHorizontalValuesTable(output,'orders_data_tab');})
+      .catch(err => console.error(err));
+    
+
+  fetch(fix_term_url+'/orders-list?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {fillOrdersValuesTable(output,'orders_data_tab');})
       .catch(err => console.error(err));
     
       
@@ -448,10 +510,23 @@ fetch(fix_term_url+'/orders-list?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
       .then((output) => {generateMonitorDataTable(output,'market_data_tab');})
       .catch(err => console.error(err));
+
+
+
+  fetch(fix_term_url+'/market-model-dic')
+      .then(result => result.json())
+      .then((output) => {generateVerticalTable(output,'market_model_tab');})
+      .catch(err => console.error(err));
+
+
+
+
   
+  //refOrdersTable();  
   
   refMarketDataTable();
-
+  refPositionTable();
+  refMarketModelTable();
 
   //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, wyczyść tablice pozycji itp
 
