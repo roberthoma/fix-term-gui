@@ -385,6 +385,27 @@ function refMarketModelTable(){
 
 
 
+
+
+async function refreshIdxInfoTable(params){
+  setValueFromList(params);
+
+  fetch(fix_term_url+'/idx-info-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {refreshIdxInfoTable(output);})
+      .catch(err => console.error(err));
+
+}
+
+function refIndicatorsTable(){
+  refreshIdxInfoTable("");
+}
+
+
+
+
+
+
 // async function refreshOrdersTable(params){
 //   setValueFromList(params);
 
@@ -520,13 +541,23 @@ function loadMonitor() {
 
 
 
+  fetch(fix_term_url+'/market-info-dic')
+      .then(result => result.json())
+      .then((output) => {generateHorizontalValuesTable(output,'market_info_tab');})
+      .catch(err => console.error(err));
+
+
 
   
   //refOrdersTable();  
   
   refMarketDataTable();
+  
   refPositionTable();
+  
   refMarketModelTable();
+
+  refIndicatorsTable();  
 
   //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, wyczyść tablice pozycji itp
 
