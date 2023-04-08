@@ -390,7 +390,7 @@ function refMarketModelTable(){
 async function refreshIdxInfoTable(params){
   setValueFromList(params);
 
-  fetch(fix_term_url+'/idx-info-values?fix_symbol_id='+fix_symbol_id)
+  fetch(fix_term_url+'/market-data-values?fix_symbol_id='+fix_symbol_id)
       .then(result => result.json())
       .then((output) => {refreshIdxInfoTable(output);})
       .catch(err => console.error(err));
