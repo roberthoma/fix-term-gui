@@ -28,12 +28,11 @@ function toggle(id) {
     }
 }
 
-function startServer() {
+function startServer(account_id) {
 
   var request = new XMLHttpRequest();
-  request.open("GET", fix_term_url+"/start");
+  request.open("GET", fix_term_url+"/start?account_id="+account_id);
   request.send();
-
   request.onload = (e) => {
     alert(request.response);
   }
@@ -309,6 +308,35 @@ function generateHorizontalValuesTable(params,tab_name){
 }
 
 
+function generateGridValuesTable(params,tab_name){
+
+var table = document.getElementById(tab_name);
+
+  // Loop through the data
+  params.forEach(function(array) {
+      // Create a new row
+      var row = document.createElement("tr");
+    
+      // Loop through each object in the array
+      array.forEach(function(object) {
+          // Create a new cell
+          var cell = document.createElement("td");
+        
+          // Add the symbol text
+          cell.textContent = object.value;
+
+          // Set the id attribute to the symbol
+          cell.setAttribute("id", object.symbol);
+        
+          // Add the cell to the row
+          row.appendChild(cell);
+      });
+    
+      // Add the row to the table
+      table.appendChild(row);
+  });
+}
+
 
 
 function fillOrdersValuesTable (params,tab_name){
@@ -405,6 +433,24 @@ function refIndicatorsTable(){
 
 
 
+async function refreshDoMTable(params){
+  setValueFromList(params);
+
+  fetch(fix_term_url+'/dom-change-values?fix_symbol_id='+fix_symbol_id)
+      .then(result => result.json())
+      .then((output) => {refreshDoMTable(output);})
+      .catch(err => console.error(err));
+
+}
+
+function   refDoMTable(){
+  refreshDoMTable("");
+}
+
+
+
+
+
 
 // async function refreshOrdersTable(params){
 //   setValueFromList(params);
@@ -487,7 +533,6 @@ async function setIndicatorsParameters(){
 }
 
 
-
 function loadMonitor() {
 
 
@@ -547,6 +592,11 @@ function loadMonitor() {
       .catch(err => console.error(err));
 
 
+  fetch(fix_term_url+'/dom-dic')
+      .then(result => result.json())
+      .then((output) => {generateGridValuesTable(output,'dom_tab');})
+      .catch(err => console.error(err));
+
 
   
   //refOrdersTable();  
@@ -559,6 +609,21 @@ function loadMonitor() {
 
   refIndicatorsTable();  
 
-  //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, wyczyść tablice pozycji itp
+   refDoMTable();
+
+  //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, 
+  //wyczyść tablice pozycji itp
+
+}
+
+
+function loadDoM() {
+
+  fetch(fix_term_url+'/dom-dic')
+      .then(result => result.json())
+      .then((output) => {generateGridValuesTable(output,'dom_tab');})
+      .catch(err => console.error(err));
+
+ refDoMTable();
 
 }

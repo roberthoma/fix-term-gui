@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>FIX DOM</title>
+</head>
+<body onload="loadDoM()">  
+<button type="button"
+        onclick="startServer(1)">
+    Start ICMARKETS
+</button>
+
+<button type="button"
+        onclick="startServer(2)">
+    Start LMAX
+</button>
+
+<button type="button"
+        onclick="logoutServer()">
+    Logout server
+</button>
+
+<button type="button" onclick="globalAutoTradingSwitch()">
+    AUTO TRADING OFF/ON
+</button>  
+
+<button type="button"
+        onclick="sendTradingSessionStatusRequest()">
+    Trading Session Status
+</button>  
+
+
+
+<button type="button"
+        onclick="sendNetworkStatusRequest()">
+    Network Status
+</button>  
+
+
+<button type="button"
+        onclick="resetAllMaps()">
+    Reset Action
+</button>  
+
+
+
+<br>
+<h1 id="instrumentSymbol"></h1>
+<p id="instrumentDesc"></p>
+<p id="instrumentPrecision">prrrec</p>
+
+
+<table style="border-collapse: collapse; width: 100%; height: 160px;" border="1">
+  <tbody>
+  <tr style="height: 142px;">
+    <td style="width: 30.2557%; height: 142px;">
+  
+      <p style="text-align: center;"><strong>DEPTH OF MARKET</strong></p>
+      <table id="dom_tab" style="border-collapse: collapse; width: 100%;font-size:12px;" border="1"> </table>
+
+
+    </td>
+  </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
