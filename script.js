@@ -609,7 +609,7 @@ function loadMonitor() {
 
   refIndicatorsTable();  
 
-   refDoMTable();
+  refDoMTable();
 
   //TODO Zestaw parametrów sterujących strona np: wyczyśc tablicę zleceń, 
   //wyczyść tablice pozycji itp
